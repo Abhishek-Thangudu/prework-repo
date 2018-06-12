@@ -1,0 +1,147 @@
+// package whatever; // don't place package name!
+
+import java.io.*;
+
+class LinkedListNode {
+
+    /* getter/setter for this node's value */
+    private int val;
+    private LinkedListNode next;
+  
+    LinkedListNode(int val){
+        this.val = val;
+        this.next = null;
+    }
+    int getValue() {
+      return this.val;
+    }
+    void setValue(int value){
+      this.val = value;
+    }
+
+    /* getter/setter for the subsequent node, or null if this is the last node */
+    LinkedListNode getNext(){
+      return next;
+    }
+    void setNext(LinkedListNode next){
+      this.next = next;
+    }
+
+    /**
+     * Initialize this node and all of its subsequent nodes from
+     * an array of values, starting with the head value at index 0
+     *
+     * @param listValues - the ordered values for the whole list
+     */
+    void setValuesFromArray(int[] listValues){
+      /*LinkedListNode head = new LinkedListNode();
+      head.setValue(-1);
+      head.setNext(null);
+      LinkedListNode curr = head;
+        for(int i = 0; i < listValues.length; i++){
+          curr.next = new LinkedListNode(listValues[i]);
+          node.
+        }
+      
+      */
+      LinkedListNode prev = this;
+      prev.setValue(listValues[0]);
+      
+      for (int i = 1; i < listValues.length; i++) {
+        LinkedListNode cur = new LinkedListNode(listValues[i]);
+        prev.setNext(cur);
+        prev = cur;
+      }
+    }
+
+}
+
+public LinkedListNode addTwoNumbers(LinkedListNode a, LinkedListNode b) {
+  int carry = 0;
+  LinkedListNode aptr = a;
+  LinkedListNode bptr = b;
+  LinkedListNode res = new LinkedListNode(-1);
+  LinkedListNode curres = res;
+  int sum = 0;
+  while (aptr != null && bptr != null) {
+    sum = carry + aptr.getValue() + bptr.getValue();
+    LinkedListNode tmp = new LinkedListNode(sum%10);
+    carry = sum/10;
+    curres.setNext(tmp);
+    curres = tmp;
+    aptr = aptr.getNext();
+    bptr = bptr.getNext();
+  }
+  while (aptr != null) {
+    sum = carry + aptr.getValue();
+    LinkedListNode tmp = new LinkedListNode(sum%10);
+    carry = sum/10;
+    curres.setNext(tmp);
+    curres = tmp;
+    aptr = aptr.getNext();
+  }
+  while (bptr != null) {
+    sum = carry + bptr.getValue();
+    LinkedListNode tmp = new LinkedListNode(sum%10);
+    carry = sum/10;
+    curres.setNext(tmp);
+    curres = tmp;
+    bptr = bptr.getNext();
+  }
+  if(carry == 1){
+    curres.setNext(new LinkedListNode(carry)); 
+  }
+  return res.getNext();
+}
+
+class MyCode {
+  public static void main (String[] args) {
+    System.out.println("Hello Java");
+  }
+}
+
+pubic HashMap<String, Integer> getWordCount(String inp) {
+  String [] wordArray = inp.split(" \!\.\,\?");
+  HashMap<String, Integer> result = new HashMap<>();
+  for (String w : wordArray) {
+    w = w.toLowerCase();
+    if (!result.containsKey(w)) {
+      result.put(w, 1);
+    } else {
+      result.put(w, result.getValue(w) + 1);
+    }
+  }
+  return result;
+}
+
+public HashMap<Integer, HashSet<String>> getCoultList(HashMap<String, Integer> map){
+  HashMap<Integer, HashSet<String>> result = new HashMap<>();
+  for(String str : map.keySet()){
+    int count  = map.get(str);
+    if(result.containsKey(count)){
+      HashSet<String> set = result.get(count);
+      set.add(str);
+    }else {
+      result.add(count, new HashSet<>().add(str));
+    }
+  }
+  return result;
+}
+
+
+abcabcbb
+
+1 a
+2 b
+3 c
+4 d
+5 b
+
+a 1
+b 2   
+c 3 
+d 4  
+b   
+b 6
+e
+c

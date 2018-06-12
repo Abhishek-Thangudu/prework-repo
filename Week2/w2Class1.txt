@@ -1,0 +1,154 @@
+// package whatever; // don't place package name!
+
+import java.io.*;
+
+class MyCode {
+  public static void main (String[] args) {
+    /*System.out.println("Hello Java");
+    int[] p1 = {2,3,5,5,7,11,11,11,11,13};
+    deleteDup(p1);
+    for(int i = 0; i < p1.length; i++){
+      System.out.println(p1[i]);
+    }*/
+//     enumeratePrime(10);
+//     int[][] matrix = {
+//       { 1, 2, 3 },
+//       { 4, 5, 6 },
+//       { 7, 8, 9 }
+//     };
+//     int[] spiral = spiralOrder(matrix);
+//     for (int i = 0; i < spiral.length; i++) {
+//       System.out.println(spiral[i]);
+//     }
+    
+    String p4 = "A man, a plan, a canal: Panama";
+    String p42 = "A man, a plan, a canal: tanama";
+    System.out.println(isPalindrome(p42));
+  }
+  // ch c 
+  // c >= 'a' && c <= 'z'
+  // while (end > st)
+  
+  public static boolean isPalindrome(String str){
+    if(str.length() < 2)
+      return true;
+    
+    
+    int start = 0;
+    int end = str.length() - 1;
+    int c1, c2 = 0;
+    while(end > start){
+      if(!Character.isAlphabetic(str.charAt(start))){
+        start++;
+        continue;
+      }
+      if(!Character.isAlphabetic(str.charAt(end))){
+        end--;
+        continue;
+      }
+      
+      if(str.charAt(start) <= 'Z'){
+        c1 = str.charAt(start) - 'A';
+      }else {
+        c1 = str.charAt(start) - 'a';
+      }
+      
+      if(str.charAt(end) <= 'Z'){
+        c2 = str.charAt(end) - 'A';
+      }else {
+        c2 = str.charAt(end) - 'a';
+      }
+      
+      if(c1 != c2)
+        return false;
+      start++;
+      end--;
+    }
+    return true;
+  }
+  
+  public static int[] spiralOrder(int [][] mat) {
+
+    int row = mat.length;
+    int col = mat[0].length;
+    int [] res = new int[row*col];
+    
+    
+    int minrow = 0;
+    int mincol = 0;
+    int maxrow = row - 1;
+    int maxcol = col - 1;
+    int k = 0;
+    int i = 0, j = 0;
+   
+    while (maxrow >= minrow || maxcol >= mincol) {
+    for (j = mincol; j <= maxcol; j++) {
+      res[k] = mat[i][j];
+      k++;
+    }
+    minrow++;
+    j--;
+    for ( i = minrow; i <= maxrow; i++) {
+      res[k] = mat[i][j];
+      k++;
+    }
+    maxcol--;
+    i--;
+    for (j = maxcol; j >= mincol; j--) {
+      res[k] = mat[i][j];
+      k++;
+    }
+    maxrow--;
+    j++;
+    for (i = maxrow; i >= minrow; i--) {
+      res[k] = mat[i][j];
+      k++;
+    }
+      i++;
+      mincol++;
+    }
+    return res;
+  }
+  
+  //ind 0,1,2,3,4,5, 6, 7, 8, 9 
+  //   {2,3,5,5,7,11,11,11,11,13}
+  public static void deleteDup(int arr[]){
+    if(arr == null || arr.length < 2)
+      return;
+    int ptr1 = 1;
+    int ptr2 = 1;
+    while(ptr2 < arr.length){
+      if(arr[ptr2] == arr[ptr2 - 1]){
+        ptr2++;
+      }else {
+        arr[ptr1++] = arr[ptr2++];
+      }
+    }
+    for(int i = ptr1; i < arr.length; i++){
+      arr[i] = 0;
+    }
+  }
+  //sieve of erastnos..
+  public static void enumeratePrime(int n) {
+    if (n < 2) {
+      return;
+    }
+    boolean[] isPrime = new boolean[n+1];
+    for (int i = 0; i < n+1; i++) {
+      isPrime[i] = true;
+    }
+    // 0 1 2 3 4 5 6 7 9 10 11
+    //     t t f t f t t f  t 
+    for (int i = 2; i <= n; i++) {
+      for (int j = i * i; j <= n; j = j + i) {
+        isPrime[j] = false;
+      }
+    }
+    for (int i = 2; i <= n; i++) {
+      if (isPrime[i]) {
+        System.out.println(i);
+      }
+    }
+  }
+  
+}

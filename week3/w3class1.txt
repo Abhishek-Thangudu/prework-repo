@@ -1,0 +1,103 @@
+public class TreeNode<E> {
+
+    E value;
+    TreeNode<E> left, right;
+    int sum;
+    public TreeNode(E value) {
+        this.value = value;
+        this.left = right = null;
+    }
+
+}
+
+public class Solution {
+
+public boolean binarySearchTree(TreeNode<Integer> root){
+    if(root == null )
+        return false;
+    int min = Integer.MIN_VALUE;
+    int max = Integer.MAX_VALUE;
+    return determineBinarySearch(root, min, max);
+}
+
+private boolean determineBinarySearch(TreeNode<Integer> node, int min, int max){
+if(node == null)
+    return true;
+    if(node.value > max || node.value < min){
+        return false;
+    }
+    boolean left = determineBinarySearch(node, min, node.value);
+    boolean right = determineBinarySearch(node, node.value, max);
+    
+    return left && right;
+}
+
+public int countLeaf(TreeNode<Integer> root) {
+    if (root == null) {
+        return 0;
+    } else if (root.left == null && root.right == null) {
+        return 1;
+    }
+    return countLeaf(root.left) + countLeaf(root.right);
+}
+
+public boolean areIdenticalTrees(TreeNode<Integer> a, TreeNode<Integer> b) {
+    if (a == null || b == null) return false;
+    if (a.value != b.value) return false;
+    
+    return areIdenticalTrees(a.left, b.left) && areIdenticalTrees(a.right, b.right);
+}
+
+public boolean BfsPathSum(TreeNode<Integer> root, int targetSum){
+    if(root == null)
+        return false;
+    Queue<TreeNode> q = new LinkedList<>();
+    q.add(root);
+    while(!q.isEmpty()){
+        TreeNode<Integer> node = q.remove();
+        if(node.left == null && node.right == null && node.sum == targetSum)
+            return true;
+        if(node.left != null){
+            node.left.sum = node.sum + node.left.value;
+            q.add(node.left);
+        }
+        if(node.right != null){
+            node.right.sum = node.sum + node.right.value;
+            q.add(node.right);
+        }
+    }
+    return false;
+}
+
+
+
+
+public ArrayList<ArrayList<Integer>> dfsPathSums(TreeNode<Integer> root, int targetSum) {
+    private ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
+    ArrayList<Integer> path = new ArrayList<>();
+    dfsPathSum(root, targetSum, paths, path);
+    return paths;
+}
+
+private void dfsPathSum(TreeNode<Integer> root, int targetSum, ArrayList<ArrayList<Integer>> ArrayList<Integer> path) {
+    if (root == null) {
+        return false;
+    }
+    path.add(root.value);
+    if (root.left == null && root.right == null) {
+        if (root.sum == targetSum) {
+            paths.add(path);
+        }
+    }
+    if (root.left != null) {
+        root.left.sum = root.sum + root.left.value;
+        dfsPathSum(root.left, targetSum, path);
+    }
+    if (root.right != null) {
+        root.right.sum = root.sum + root.right.value;
+        dfsPathSum(root.right, targetSum, path);
+    }
+
+}
+
+}

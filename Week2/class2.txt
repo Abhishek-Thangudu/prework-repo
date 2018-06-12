@@ -1,0 +1,128 @@
+class Solution {
+  public static void main(String[] args) {
+    ArrayList<String> res = splitString("This is an example of text justification.", 16);
+    
+    for(String str : res){
+      System.out.println(str);
+    }
+    
+  }
+  
+  public static ArrayList<String> splitString(String str, int len){
+    String sarr[] = str.split(" ");
+    ArrayList<String> result = new ArrayList<>();
+    int count = 0;
+    ArrayList<String> currList = new ArrayList<>();
+    for(int i = 0; i < sarr.length; i++){
+      if(count + sarr[i].length() <= len){
+        currList.add(sarr[i]);
+        count += sarr[i].length() + 1;
+      } else {
+        result.add(concat(currList,count, len));
+        currList = new ArrayList<>();
+        currList.add(sarr[i]);
+        count = sarr[i].length() + 1;
+      }
+        
+    }
+    result.add(concat(currList,count, len));
+    return result;
+  }
+  
+  // ["This", "is", "an"]
+  public static String concat(ArrayList<String> list, int count, int len){
+    
+    StringBuilder sb = new StringBuilder();
+    sb.append(list.get(0));
+    int rem = len - count + list.size();
+    
+    if(list.size() == 1){
+      for(int j = 0; j < rem; j++){
+        sb.append(" ");
+      }
+    }
+    else {
+      int space = rem / (list.size() - 1);
+      int mod = rem % (list.size() - 1);
+      for(int i = 1; i < list.size(); i++){
+        for(int j = 0; j < space; j++){
+          sb.append(" ");
+        }
+        if(mod > 0){
+          sb.append(" ");
+          mod--;
+        }
+        sb.append(list.get(i));
+      }
+    }
+     
+    return sb.toString();
+  }
+  
+}
+
+
+
+
+
+# TestCase1 : {6,4,2,4,4} : O/P: {3,2,1,2,1}
+# .           {1,0,-1,0,-1}
+# TestCase2 : {2,3,4,3,4,4,2,3,3,4,4}: O/P: {1,2,3,1,2,2,1,2,1,2,1}
+# .           {1,2,3,1,2,1,0,1,0,1,0}
+# {2: [2], 4: [1, 3, 4], 6: [0]
+# [3, 2, 1, 2, 1]
+
+
+def min_stars2(sorted_kids):
+    hit_zero = -1
+    min_num = 1
+    stars = [1]
+    
+    i = 1
+    while i < len(sorted_kids):
+        num_stars = None
+
+        if sorted_kids[i] > sorted_kids[i-1]:
+            num_stars = stars[i-1] + 1
+        elif sorted_kids[i] < sorted_kids[i-1]:
+            min_num = min([stars[i-1] - 1, min_num])
+            num_stars = min_num
+        else:
+            num_stars = min_num
+        
+        stars.append(num_stars)
+        i += 1
+    
+    return stars
+
+
+
+
+def min_stars(sorted_kids):
+    rank_map = {}
+    i = 0
+    min_stars = []
+
+    for i in range(len(sorted_kids)):
+        rank = sorted_kids[i]
+        if rank not in rank_map:
+            rank_map[rank] = []
+        rank_map[rank].append(i)
+        min_stars.append(1)
+    
+    order = sorted(rank_map.keys())
+    
+    for num in order[1:]:
+        for j in rank_map[num]:
+            lower_neighbors = []
+            if j - 1 >= 0 and sorted_kids[j-1] < sorted_kids[j]:
+                lower_neighbors.append(min_stars[j-1])
+            if j + 1 < len(sorted_kids) - 1 and sorted_kids[j+1] < sorted_kids[j]:
+                lower_neighbors.append(min_stars[j+1])
+            
+            if lower_neighbors:
+                possible_scores = [score + 1 for score in lower_neighbors]
+                print possible_scores
+                min_stars[j] = max(possible_scores)
+    
+    print min_stars
