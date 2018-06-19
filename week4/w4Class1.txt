@@ -1,0 +1,131 @@
+
+ /// package whatever; // don't place package name!
+
+import java.io.*;
+import java.math.BigInteger;
+import java.util.*;
+
+class MyCode {
+  public static void main (String[] args) {
+    System.out.println("Hello Java");
+    //System.out.println(factorial(BigInteger.valueOf(3)));
+    //System.out.println(gcd(27,21));
+    //substringSet("Abhi");abstract
+    //System.out.println(findNonRepeated(Arrays.asList(1, 2, 3, 2, 1)));
+    ArrayList<ArrayList<Integer>> ans = getPermutation(Arrays.asList(1, 2, 3));
+    for (int i = 0; i < ans.size(); i++) {
+      for(int j = 0; j < ans.get(i).size(); j++) {
+        System.out.print(ans.get(i).get(j));
+      }
+      System.out.println("");
+    }
+  }
+  
+  public static BigInteger factorial(BigInteger n) {
+    if (n.equals(BigInteger.valueOf(0))) return BigInteger.valueOf(1);
+    return n.multiply(factorial(n.subtract(BigInteger.valueOf(1))));
+  }
+  
+  
+  public static int gcd(int a, int b){
+    if(b % a == 0)
+      return a;
+    return gcd(b%a, a);
+  }
+
+ // 1 2 2
+  public static ArrayList<ArrayList<Integer>> getPermutation(List<Integer> inp) {
+    ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+    // Knuth's algorithm
+    
+    
+    permRec(inp, res, new ArrayList<>(), new boolean[inp.size()]);
+    return res;
+    
+  }
+  
+  // _ _ _
+  public static void permRec(List<Integer> inp, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> tmp, boolean[] isUsed) {
+    if (tmp.size() == inp.size()) {
+      res.add(new ArrayList<>(tmp));
+      return;
+    }
+    for (int i = 0; i < inp.size(); i++) {
+      if (isUsed[i] == false) {
+        isUsed[i] = true;
+        tmp.add(inp.get(i));
+        permRec(inp, res, tmp, isUsed);
+        isUsed[i] = false;
+        tmp.remove(tmp.size() - 1);
+      }
+    }
+  }
+  
+  public static void substringSet(String str){
+    
+    Set<String> set = new HashSet<String>();
+    
+    for(int i = 1; i <= str.length(); i++){
+      for(int j = 0; j < i; j++){
+        set.add(str.substring(j,i));
+      }
+    }
+    
+    for(String s : set){
+      System.out.println(s);
+    }
+    
+  }
+  
+  // 1 2 2 3 1
+  public static int findNonRepeated(List<Integer> inp) {
+    int res = 0;
+    for (int i = 0; i < inp.size(); i++) {
+      res ^= inp.get(i);
+    }
+    return res;
+  }
+  
+  
+ /* public static int countBits(int num){
+    
+    int count  = 0;
+    if(num == 0)
+        return 0;
+    
+    int n = 1;
+    
+    for(int i = 1; i < 32; i++){
+      
+      if(num & n != 0)
+        count++;
+      
+      n = n << 1;
+    }
+    return count;
+  }*/
+  
+}
+
+//Brian Kernighan
+/*while (num) {
+   num &= (num - 1);
+   count++;
+}
+*/
+
+/* 
+Your last C# code is saved below:
+using System;
+
+public class Test
+{
+  public static void Main()
+  {
+    Console.WriteLine("Hello");
+  }
+  
+  public static Big
+}
+
+ */

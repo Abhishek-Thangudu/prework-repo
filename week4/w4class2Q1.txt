@@ -1,0 +1,87 @@
+// package whatever; // don't place package name!
+
+import java.io.*;
+import java.util.*;
+
+interface TowersOfHanoiSoln {
+
+    /**
+     * All possible moves between rods A, B, and C
+     */
+    public static enum Move {
+        AB, AC, BA, BC, CA, CB;
+    }
+
+    /**
+     * Solve the sequence of correct moves for n discs from rod A to rod C.
+     *
+     * @param n - number of discs
+     * @return the sequence moves
+     */
+    Move[] solve(int n);
+
+}
+
+class TowersOfHanoi implements TowersOfHanoiSoln {
+ 
+  public Move[] solve(int n) {
+    
+    List<Move> movelist = new ArrayList<>();
+    solve(n,'A','C','B',movelist);
+    
+    return movelist.toArray(new Move[0]);
+    
+  }
+  
+  private Move getMove(char from, char to) {
+    if(from == 'A' && to =='B') return Move.AB;
+    if(from == 'A' && to =='C') return Move.AC;
+    if(from == 'B' && to =='A') return Move.BA;
+    if(from == 'B' && to =='C') return Move.BC;
+    if(from == 'C' && to =='A') return Move.CA;
+    if(from == 'C' && to =='B') return Move.CB;
+    
+    //this should not happen ever.
+    return Move.AB;
+  }
+  
+  private void solve(int n,char from, char to, char spare,List<Move> moves) {
+    if(n == 1) {
+      moves.add(getMove(from,to));
+      return;
+    }
+    
+    solve(n-1,from,spare,to,moves);
+    solve(1,from,to,spare,moves);
+    solve(n-1,spare,to,from,moves);
+  }
+}
+
+class MyCode {
+  public static void main (String[] args) {
+   TowersOfHanoi tower = new TowersOfHanoi(); 
+   TowersOfHanoiSoln.Move[] moves = tower.solve(4);
+   for(TowersOfHanoiSoln.Move move: moves) {
+     System.out.println(move);
+   }
+    
+    
+  }
+}
+
+/**
+
+ A : 4 
+ B : 3 2 1
+ C : 
+ 
+ from disk A
+   dest disk B
+   spare disK C
+ 
+ 
+
+ n : move n -1 + move nth Disk to dest , move n-1 to dest
+ AC, AB ,CB ,AC, BA ,BC, AC
+
+*/
